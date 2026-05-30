@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Hidden Almanac — Facts Worth Finding</title>
+  <meta name="description" content="Rare, valuable, and little-known facts across finance, law, health, science, and productivity. Dig deeper and discover what most people never learn." />
+
+  <!-- ─── Google AdSense ─── -->
+  <!-- Replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- ─── Media.net ─── -->
+  <!-- Replace 8XXXXXXXX with your Media.net publisher ID -->
+  <script>window._mNHandle = window._mNHandle || {}; window._mNHandle.queue = window._mNHandle.queue || [];</script>
+  <script async src="//contextual.media.net/dmedianet.js?cid=8XXXXXXXX"></script>
+
+  <!-- ─── Ezoic ─── -->
+  <!-- Replace 00000 with your Ezoic site ID -->
+  <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+  <script>window.ezstandalone = window.ezstandalone || {}; ezstandalone.cmd = ezstandalone.cmd || [];</script>
+
+  <!-- ─── Infolinks ─── -->
+  <!-- Replace pid/wsid with your Infolinks credentials -->
+  <script>var infolinks_pid = 0000000; var infolinks_wsid = 0;</script>
+  <script async src="//resources.infolinks.com/js/infolinks_main.js"></script>
+
+  <!-- ─── PropellerAds ─── -->
+  <!-- Replace ZONE_ID with your PropellerAds zone -->
+  <script async src="https://a.magsrv.com/ad-provider.js"></script>
+
+  <!-- ─── Adsterra ─── -->
+  <!-- Adsterra banner script placeholder — add your zone key -->
+
+  <!-- ─── Sovrn / VigLink ─── -->
+  <!-- Replace API_KEY with your Sovrn API key -->
+  <script type="text/javascript">var vglnk = {key: 'API_KEY_HERE'};</script>
+  <script async src="//cdn.viglink.com/api/vglnk.js"></script>
+
+  <!-- ─── Amazon Publisher Services (TAM) ─── -->
+  <script>
+    var apstag = window.apstag || {};
+    apstag.cmd = apstag.cmd || [];
+    // Initialize with your APS pubID
+    // apstag.cmd.push(function(){ apstag.init({pubID:'YOUR_PUBID', adServer:'googletag'}); });
+  </script>
+
+  <!-- ─── Taboola ─── -->
+  <script>
+    window._taboola = window._taboola || [];
+    _taboola.push({article:'auto'});
+    // Replace YOUR_PUBLISHER_ID
+    !function (e, f, u) {
+      e.async = 1; e.src = u; f.parentNode.insertBefore(e, f);
+    }(document.createElement('script'), document.getElementsByTagName('script')[0],
+    '//cdn.taboola.com/libtrc/YOUR_PUBLISHER_ID/loader.js');
+  </script>
+
+  <!-- ─── Outbrain ─── -->
+  <script async src="https://widgets.outbrain.com/outbrain.js"></script>
+
+  <style>
+    /* ══════════════════════════════════════════
+       RESET & BASE
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:    #0D7377;
+      --teal-lt: #14A085;
+      --coral:   #E8524A;
+      --gold:    #F0A500;
+      --gold-lt: #F7C948;
+      --purple:  #7B3FA0;
+      --purple-lt:#A855C8;
+      --lime:    #1E9650;
+      --lime-lt: #2ECC71;
+      --ink:     #1A1A2E;
+      --slate:   #3A3A5C;
+      --fog:     #F4F5FA;
+      --white:   #FFFFFF;
+      --radius:  12px;
+      --shadow:  0 4px 20px rgba(0,0,0,.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: var(--fog);
+      color: var(--ink);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── Utility ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: #555;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ── Ad label ── */
+    .ad-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #999;
+      text-align: center;
+      margin-bottom: 4px;
+      font-family: sans-serif;
+    }
+    .ad-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    /* ── Ad placeholders (shown when real ad scripts aren't loaded) ── */
+    .ad-placeholder {
+      background: linear-gradient(135deg, #e8eaf6 0%, #f3e5f5 100%);
+      border: 1px dashed #9fa8da;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #7986cb;
+      font-family: sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .ad-placeholder::after {
+      content: "ADVERTISEMENT";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #b0bec5;
+      opacity: .6;
+    }
+
+    /* ══════════════════════════════════════════
+       TOP BILLBOARD STRIP
+    ══════════════════════════════════════════ */
+    #top-billboard {
+      background: var(--ink);
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    /* ── AdSense 970×250 billboard ── */
+    .ad-970x250 { width: 970px; height: 250px; max-width: 100%; }
+
+    /* ══════════════════════════════════════════
+       NAVIGATION
+    ══════════════════════════════════════════ */
+    nav {
+      background: var(--white);
+      border-bottom: 3px solid var(--gold);
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    nav .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .nav-logo {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--teal);
+      letter-spacing: -1px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--coral); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--slate);
+      text-decoration: none;
+      font-size: .88rem;
+      font-family: sans-serif;
+      font-weight: 600;
+      letter-spacing: .3px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--coral); }
+
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    #hero {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--purple) 60%, var(--coral) 100%);
+      padding: 60px 20px 50px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+      top: -200px; right: -150px;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+      bottom: -150px; left: -100px;
+    }
+    #hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 20px rgba(0,0,0,.3);
+    }
+    #hero h1 em { color: var(--gold-lt); font-style: normal; }
+    #hero p {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      max-width: 680px;
+      margin: 0 auto 30px;
+      opacity: .9;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--ink);
+      font-weight: 800;
+      font-family: sans-serif;
+      font-size: 1rem;
+      padding: 14px 34px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgba(0,0,0,.25);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,.3); }
+
+    /* ── Hero leaderboard ── */
+    .hero-ad-row {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+    }
+    .ad-728x90 { width: 728px; height: 90px; max-width: 100%; }
+
+    /* ══════════════════════════════════════════
+       TICKER
+    ══════════════════════════════════════════ */
+    .ticker-bar {
+      background: var(--gold);
+      color: var(--ink);
+      font-family: sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-flex;
+      animation: ticker 40s linear infinite;
+    }
+    .ticker-item { margin-right: 60px; }
+    .ticker-item::before { content: "✦  "; color: var(--teal); }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION SCAFFOLDING
+    ══════════════════════════════════════════ */
+    .almanac-section {
+      padding: 60px 0;
+    }
+    .almanac-section:nth-child(even) { background: var(--white); }
+
+    /* ── Two-col layout: content + sidebar ── */
+    .col-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 32px;
+      align-items: start;
+    }
+    .col-layout.flipped {
+      grid-template-columns: 320px 1fr;
+    }
+    @media (max-width: 900px) {
+      .col-layout,
+      .col-layout.flipped { grid-template-columns: 1fr; }
+      .col-layout.flipped .sidebar { order: -1; }
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── Fact Cards ── */
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .fact-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      border-left: 5px solid var(--teal);
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+    }
+    .fact-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,.16); }
+    .fact-card .category-badge {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-family: sans-serif;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--teal);
+      color: var(--white);
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .fact-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+    .fact-card p {
+      font-size: .9rem;
+      color: #555;
+      line-height: 1.6;
+    }
+    .fact-card .gem-icon {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 1.3rem;
+      opacity: .5;
+    }
+
+    /* ── Color variants ── */
+    .card-coral  { border-left-color: var(--coral); }
+    .card-coral  .category-badge { background: var(--coral); }
+    .card-gold   { border-left-color: var(--gold); }
+    .card-gold   .category-badge { background: var(--gold); color: var(--ink); }
+    .card-purple { border-left-color: var(--purple); }
+    .card-purple .category-badge { background: var(--purple); }
+    .card-lime   { border-left-color: var(--lime); }
+    .card-lime   .category-badge { background: var(--lime); }
+
+    /* ── Inline ad inside fact grid ── */
+    .inline-ad-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+    }
+
+    /* ── Section header strip ── */
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 30px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--fog);
+    }
+    .section-icon {
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+
+    /* ══════════════════════════════════════════
+       LEADERBOARD STRIP
+    ══════════════════════════════════════════ */
+    .leaderboard-strip {
+      background: var(--ink);
+      padding: 18px 0;
+      text-align: center;
+    }
+    .leaderboard-strip.light {
+      background: #ECEEF6;
+    }
+
+    /* ══════════════════════════════════════════
+       NATIVE AD WIDGETS
+    ══════════════════════════════════════════ */
+    .native-widget-wrap {
+      background: var(--white);
+      border-top: 3px solid var(--teal);
+      padding: 24px;
+      border-radius: 0 0 var(--radius) var(--radius);
+      margin-top: 30px;
+    }
+    .native-widget-wrap.gold-top { border-top-color: var(--gold); }
+    .native-widget-wrap.coral-top { border-top-color: var(--coral); }
+    .native-widget-label {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #aaa;
+      font-family: sans-serif;
+      margin-bottom: 12px;
+    }
+
+    /* ══════════════════════════════════════════
+       CALLOUT BANNER
+    ══════════════════════════════════════════ */
+    .callout-banner {
+      background: linear-gradient(90deg, var(--teal) 0%, var(--lime) 100%);
+      color: var(--white);
+      padding: 28px 36px;
+      border-radius: var(--radius);
+      margin: 32px 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: var(--shadow);
+    }
+    .callout-banner .cta-text { font-size: 1.1rem; font-weight: 700; }
+    .callout-banner p { font-size: .9rem; opacity: .9; margin-top: 4px; }
+
+    /* ══════════════════════════════════════════
+       HIGHLIGHT QUOTE
+    ══════════════════════════════════════════ */
+    .highlight-quote {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--coral) 100%);
+      color: var(--white);
+      padding: 36px;
+      border-radius: var(--radius);
+      text-align: center;
+      margin: 32px 0;
+      box-shadow: var(--shadow);
+    }
+    .highlight-quote blockquote {
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-style: italic;
+      line-height: 1.5;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .highlight-quote cite {
+      display: block;
+      margin-top: 14px;
+      font-size: .85rem;
+      font-family: sans-serif;
+      opacity: .8;
+      font-style: normal;
+    }
+
+    /* ══════════════════════════════════════════
+       TIMELINE (section 5)
+    ══════════════════════════════════════════ */
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--teal), var(--purple), var(--coral));
+      border-radius: 3px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 30px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -36px;
+      top: 20px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 2px var(--gold);
+    }
+    .timeline-item h3 { font-size: 1rem; font-weight: 700; color: var(--ink); }
+    .timeline-item p { font-size: .88rem; color: #555; margin-top: 6px; }
+    .timeline-item .time-badge {
+      font-size: .7rem;
+      font-family: sans-serif;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--purple);
+      padding: 2px 8px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION COLORS
+    ══════════════════════════════════════════ */
+    #section-finance { background: linear-gradient(180deg, #F0FFF4 0%, #FFFFFF 100%); }
+    #section-legal   { background: linear-gradient(180deg, #FFF8F0 0%, #FFFFFF 100%); }
+    #section-health  { background: linear-gradient(180deg, #F0F4FF 0%, #FFFFFF 100%); }
+    #section-science { background: linear-gradient(180deg, #FFF0F8 0%, #FFFFFF 100%); }
+    #section-productivity { background: linear-gradient(180deg, #F8F0FF 0%, #FFFFFF 100%); }
+
+    /* ══════════════════════════════════════════
+       STICKY FOOTER AD
+    ══════════════════════════════════════════ */
+    #sticky-footer-ad {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 999;
+      background: rgba(26,26,46,.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.25);
+    }
+    #sticky-close {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,.15);
+      border: none;
+      color: white;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-family: sans-serif;
+    }
+    #sticky-close:hover { background: rgba(255,255,255,.25); }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,.6);
+      padding: 50px 20px 100px;
+      text-align: center;
+      font-family: sans-serif;
+      font-size: .82rem;
+    }
+    footer .footer-logo {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 10px;
+      font-family: Georgia, serif;
+    }
+    footer .footer-logo span { color: var(--gold); }
+    footer a { color: var(--gold-lt); text-decoration: none; }
+    footer .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 16px 0 24px;
+    }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .ad-970x250 { height: auto; min-height: 80px; }
+      .ad-728x90  { width: 320px; height: 50px; }
+      .ad-300x600 { width: 300px; height: 250px; }
+      .nav-links  { display: none; }
+    }
+
+    /* ══════════════════════════════════════════
+       SCROLL PROGRESS
+    ══════════════════════════════════════════ */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--coral));
+      z-index: 1000;
+      transition: width .1s linear;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Scroll progress ── -->
+<div id="progress-bar" style="width:0%"></div>
+
+<!-- ══════════════════════════════════════════
+     TOP BILLBOARD — Google AdSense 970×250
+══════════════════════════════════════════ -->
+<div id="top-billboard">
+  <div class="ad-wrap">
+    <p class="ad-label" style="color:#555;">Advertisement</p>
+    <!-- Google AdSense billboard -->
+    <ins class="adsbygoogle ad-placeholder ad-970x250"
+         style="display:inline-block;"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="1111111111"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">The Hidden <span>Almanac</span></a>
+    <ul class="nav-links">
+      <li><a href="#section-finance">💰 Finance</a></li>
+      <li><a href="#section-legal">⚖️ Legal</a></li>
+      <li><a href="#section-health">🧬 Health</a></li>
+      <li><a href="#section-science">🔭 Science</a></li>
+      <li><a href="#section-productivity">⚡ Productivity</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="container">
+    <h1>Facts Most People<br><em>Never Find Out</em></h1>
+    <p>A curated almanac of rare, actionable, and genuinely valuable knowledge — hidden in plain sight. Scroll carefully. Every section holds something worth your time.</p>
+    <a href="#section-finance" class="hero-cta">Start Discovering ↓</a>
+
+    <!-- Leaderboard — Media.net 728×90 -->
+    <div class="hero-ad-row">
+      <div class="ad-wrap">
+        <p class="ad-label" style="color:rgba(255,255,255,.5);">Advertisement</p>
+        <!-- Media.net contextual ad -->
+        <div id="medianetherobanner" class="ad-placeholder ad-728x90">
+          <script type="text/javascript">
+            window._mNHandle.queue.push(function(){
+              window._mNDetails.loadTag("728X90-HERO", "728x90", "medianetherobanner");
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TICKER
+══════════════════════════════════════════ -->
+<div class="ticker-bar" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ticker-item">Your HSA is a triple-tax-advantaged account most people underuse</span>
+    <span class="ticker-item">You can legally negotiate medical bills AFTER insurance pays</span>
+    <span class="ticker-item">Drinking 40 oz of water daily cuts heart attack risk by up to 54%</span>
+    <span class="ticker-item">A $500 coffee habit costs $230,000 in lost retirement savings over 30 years</span>
+    <span class="ticker-item">Cold showers for 30 days measurably reduce sick-day absenteeism</span>
+    <span class="ticker-item">Your employer must give you your personnel file on request in most US states</span>
+    <span class="ticker-item">Service animals' food and vet bills are IRS-deductible medical expenses</span>
+    <span class="ticker-item">It takes 25 minutes to fully regain deep focus after a single distraction</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="ticker-item">Your HSA is a triple-tax-advantaged account most people underuse</span>
+    <span class="ticker-item">You can legally negotiate medical bills AFTER insurance pays</span>
+    <span class="ticker-item">Drinking 40 oz of water daily cuts heart attack risk by up to 54%</span>
+    <span class="ticker-item">A $500 coffee habit costs $230,000 in lost retirement savings over 30 years</span>
+    <span class="ticker-item">Cold showers for 30 days measurably reduce sick-day absenteeism</span>
+    <span class="ticker-item">Your employer must give you your personnel file on request in most US states</span>
+    <span class="ticker-item">Service animals' food and vet bills are IRS-deductible medical expenses</span>
+    <span class="ticker-item">It takes 25 minutes to fully regain deep focus after a single distraction</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     §1 FINANCIAL SECRETS
+══════════════════════════════════════════ -->
+<section id="section-finance" class="almanac-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-icon">💰</span>
+      <div>
+        <h2 class="section-title" style="color:var(--teal);">Financial Secrets They Don't Teach You</h2>
+        <p class="section-lead">Most people leave tens of thousands of dollars on the table. These facts change that.</p>
+      </div>
+    </div>
+
+    <div class="col-layout">
+      <!-- ── Main content ── -->
+      <div>
+        <div class="fact-grid">
+          <div class="fact-card card-lime">
+            <span class="gem-icon">💎</span>
+            <span class="category-badge">HSA Secret</span>
+            <h3>Your HSA is the only triple-tax-free account in existence</h3>
+            <p>Contributions are pre-tax, growth is tax-free, and withdrawals for medical expenses are tax-free — three tax advantages no IRA or 401(k) can match. 2025 limits: $4,300 solo / $8,550 family. After 65 it becomes a second IRA.</p>
+          </div>
+
+          <div class="fact-card card-gold">
+            <span class="gem-icon">🔑</span>
+            <span class="category-badge">Retirement</span>
+            <h3>The 4% withdrawal rule quietly changed to 3.3%</h3>
+            <p>The original Bengen 4% rule was calculated for 30-year retirements. For modern 40+ year retirements (retiring at 55–60), updated research shows 3.3% is the safer inflation-adjusted withdrawal rate.</p>
+          </div>
+
+          <div class="fact-card card-teal">
+            <span class="gem-icon">📊</span>
+            <span class="category-badge">Compound Interest</span>
+            <h3>$500/month coffee & eating-out habits = $230,000 lost</h3>
+            <p>At 7% average market returns over 30 years, $500/month invested instead of spent becomes $566,764. The latte factor isn't about lattes — it's about the invisible opportunity cost of small daily spending.</p>
+          </div>
+
+          <!-- ── Inline ad — Ezoic 300×250 ── -->
+          <div class="inline-ad-card">
+            <p class="ad-label">Advertisement</p>
+            <!-- Ezoic ad placeholder — replace 101 with your Ezoic ad slot ID -->
+            <div id="ezoic-pub-ad-placeholder-101" class="ad-placeholder" style="width:300px;height:250px;">
+              <script>ezstandalone.cmd.push(function(){ ezstandalone.displayAds(101); });</script>
+            </div>
+          </div>
+
+          <div class="fact-card card-coral">
+            <span class="gem-icon">🏥</span>
+            <span class="category-badge">Medical Bills</span>
+            <h3>You can negotiate medical bills AFTER insurance settles them</h3>
+            <p>Hospitals have two prices: the chargemaster rate (what they bill) and the negotiated rate (what they accept). Studies show 78% of patients who simply ask for a reduction receive one — average discount 35–50%. Request an itemized bill first; billing errors affect 80% of statements.</p>
+          </div>
+
+          <div class="fact-card card-purple">
+            <span class="gem-icon">📉</span>
+            <span class="category-badge">Tax Deduction</span>
+            <h3>Ransomware attack losses are deductible business expenses</h3>
+            <p>If your business is hit by ransomware and you pay the ransom to recover data, the IRS allows this as an ordinary and necessary business expense under IRC §162 — fully deductible. Document everything meticulously.</p>
+          </div>
+        </div>
+
+        <!-- Callout banner -->
+        <div class="callout-banner">
+          <span style="font-size:2.4rem;">🏦</span>
+          <div>
+            <p class="cta-text">A 65-year-old woman needs ~$172,500 saved for healthcare alone in retirement</p>
+            <p>This doesn't include long-term care (average $8,000/month). Most retirement calculators omit it entirely.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Sidebar ── -->
+      <aside class="sidebar">
+        <!-- Media.net 300×600 half-page -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <div id="medianet-300x600" class="ad-placeholder" style="width:300px;height:600px;">
+            <script type="text/javascript">
+              window._mNHandle.queue.push(function(){
+                window._mNDetails.loadTag("300X600-SIDE", "300x600", "medianet-300x600");
+              });
+            </script>
+          </div>
+        </div>
+
+        <!-- AdSense 300×250 -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <ins class="adsbygoogle ad-placeholder"
+               style="display:inline-block;width:300px;height:250px"
+               data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+               data-ad-slot="2222222222"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Taboola native widget -->
+    <div class="native-widget-wrap gold-top">
+      <p class="native-widget-label">Sponsored Content — Powered by Taboola</p>
+      <!-- Taboola widget -->
+      <div id="taboola-below-finance-thumbnails"></div>
+      <script>
+        _taboola.push({
+          mode: 'thumbnails-a',
+          container: 'taboola-below-finance-thumbnails',
+          placement: 'Below Finance Content',
+          target_type: 'mix'
+        });
+      </script>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     LEADERBOARD STRIP — Media.net 728×90
+══════════════════════════════════════════ -->
+<div class="leaderboard-strip">
+  <div class="ad-wrap">
+    <p class="ad-label" style="color:#888;">Advertisement</p>
+    <div id="medianet-728x90-mid" class="ad-placeholder ad-728x90">
+      <script type="text/javascript">
+        window._mNHandle.queue.push(function(){
+          window._mNDetails.loadTag("728X90-MID", "728x90", "medianet-728x90-mid");
+        });
+      </script>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     §2 LEGAL RIGHTS
+══════════════════════════════════════════ -->
+<section id="section-legal" class="almanac-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-icon">⚖️</span>
+      <div>
+        <h2 class="section-title" style="color:var(--coral);">Legal Rights Most People Don't Know They Have</h2>
+        <p class="section-lead">These rights exist right now. Most people never exercise them because nobody told them they could.</p>
+      </div>
+    </div>
+
+    <div class="col-layout flipped">
+      <!-- ── Sidebar ── -->
+      <aside class="sidebar">
+        <!-- AdSense 300×250 -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <ins class="adsbygoogle ad-placeholder"
+               style="display:inline-block;width:300px;height:250px"
+               data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+               data-ad-slot="3333333333"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Adsterra 300×250 -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <!-- Adsterra banner — replace with your actual zone script -->
+          <div class="ad-placeholder" style="width:300px;height:250px;" id="adsterra-legal-300x250">
+            <!-- Adsterra script goes here -->
+          </div>
+        </div>
+      </aside>
+
+      <!-- ── Main content ── -->
+      <div>
+        <div class="fact-grid">
+          <div class="fact-card card-coral">
+            <span class="gem-icon">📁</span>
+            <span class="category-badge">Employment</span>
+            <h3>You have the right to see your own personnel file</h3>
+            <p>In over 30 US states, employees have a statutory right to inspect their employer's personnel file. This includes performance reviews, disciplinary records, and hiring notes — information that's often crucial before termination proceedings.</p>
+          </div>
+
+          <div class="fact-card card-lime">
+            <span class="gem-icon">🐕</span>
+            <span class="category-badge">Tax Deduction</span>
+            <h3>Service animal costs are fully IRS-deductible</h3>
+            <p>Food, veterinary care, training, and supplies for a medically-prescribed service animal qualify as medical expenses under IRS Publication 502. This can be thousands per year. Required: a doctor's note documenting medical necessity.</p>
+          </div>
+
+          <!-- Inline Adsterra 336×280 -->
+          <div class="inline-ad-card">
+            <p class="ad-label">Advertisement</p>
+            <div class="ad-placeholder" style="width:336px;height:280px;" id="adsterra-inline-336">
+              <!-- Adsterra 336×280 zone script here -->
+            </div>
+          </div>
+
+          <div class="fact-card card-purple">
+            <span class="gem-icon">🏥</span>
+            <span class="category-badge">Health Insurance</span>
+            <h3>Health insurance appeal success rate: 41%</h3>
+            <p>Insurers denied claims increased 10x over the past decade, but 41% of internal appeals and up to 59% of external appeals succeed. If your claim was denied, filing an appeal costs nothing and takes under 30 minutes. Most people don't know this option exists.</p>
+          </div>
+
+          <div class="fact-card card-gold">
+            <span class="gem-icon">🚫</span>
+            <span class="category-badge">Debt Rights</span>
+            <h3>Debt collectors cannot call you before 8 AM or after 9 PM</h3>
+            <p>The Fair Debt Collection Practices Act (FDCPA) prohibits this — and you can send a written cease-and-desist letter requiring all future contact to stop entirely. Violators face $1,000 per-incident statutory damages which you can collect.</p>
+          </div>
+
+          <div class="fact-card card-teal">
+            <span class="gem-icon">✈️</span>
+            <span class="category-badge">Consumer Rights</span>
+            <h3>EU261 compensation applies to any flight to or from Europe</h3>
+            <p>If your flight to/from any EU airport is delayed 3+ hours or cancelled, you're entitled to €250–€600 in compensation per passenger — regardless of your citizenship. This applies to non-EU airlines (including United, Delta, American) on EU routes. Most passengers never claim it.</p>
+          </div>
+        </div>
+
+        <div class="highlight-quote">
+          <blockquote>"The law is a tool available to everyone — but only to those who know it exists."</blockquote>
+          <cite>— Hidden Almanac Editorial</cite>
+        </div>
+      </div>
+    </div>
+
+    <!-- Outbrain native widget -->
+    <div class="native-widget-wrap coral-top">
+      <p class="native-widget-label">Recommended Reading — Powered by Outbrain</p>
+      <!-- Outbrain widget -->
+      <div class="OUTBRAIN" data-src="DROP_URL_HERE" data-widget-id="AR_1"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     BILLBOARD STRIP — Ezoic 970×250
+══════════════════════════════════════════ -->
+<div class="leaderboard-strip" style="background:#0D1B2A; padding:24px 0;">
+  <div class="ad-wrap">
+    <p class="ad-label" style="color:#555;">Advertisement</p>
+    <!-- Ezoic 970×250 billboard -->
+    <div id="ezoic-pub-ad-placeholder-102" class="ad-placeholder ad-970x250">
+      <script>ezstandalone.cmd.push(function(){ ezstandalone.displayAds(102); });</script>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     §3 HEALTH FACTS
+══════════════════════════════════════════ -->
+<section id="section-health" class="almanac-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-icon">🧬</span>
+      <div>
+        <h2 class="section-title" style="color:var(--purple);">Health Facts Science Confirms (But Doctors Rarely Mention)</h2>
+        <p class="section-lead">Evidence-based health knowledge that most people miss entirely.</p>
+      </div>
+    </div>
+
+    <div class="col-layout">
+      <!-- ── Main content ── -->
+      <div>
+        <div class="fact-grid">
+          <div class="fact-card card-lime">
+            <span class="gem-icon">💧</span>
+            <span class="category-badge">Hydration</span>
+            <h3>40 oz of water daily cuts heart attack risk by up to 54%</h3>
+            <p>A Loma Linda University study of 20,000+ people found that women who drank 5+ glasses of water daily had 41% lower fatal coronary heart disease risk; men had 54% lower risk. Most adults drink less than half this amount chronically.</p>
+          </div>
+
+          <div class="fact-card card-purple">
+            <span class="gem-icon">🚿</span>
+            <span class="category-badge">Cold Exposure</span>
+            <h3>30 days of cold showers reduces sick days by 29%</h3>
+            <p>A 2016 randomized controlled trial in the Netherlands (n=3,018) found that people who took cold showers for 30 days had 29% fewer sick days than the hot-shower control group. Duration matters more than temperature — 30–90 seconds is sufficient.</p>
+          </div>
+
+          <!-- PropellerAds 300×250 -->
+          <div class="inline-ad-card">
+            <p class="ad-label">Advertisement</p>
+            <div class="ad-placeholder" style="width:300px;height:250px;" id="propellerads-health-300">
+              <!-- PropellerAds zone script — replace ZONE_ID -->
+              <script>
+                // (window.AdProvider = window.AdProvider || []).push({"serve": {}});
+              </script>
+            </div>
+          </div>
+
+          <div class="fact-card card-coral">
+            <span class="gem-icon">😴</span>
+            <span class="category-badge">Sleep</span>
+            <h3>Short sleepers are 55% more likely to become obese</h3>
+            <p>Meta-analyses across 300,000+ participants show that consistently sleeping under 6 hours raises obesity risk 55% in adults and 89% in children. The mechanism: sleep deprivation elevates ghrelin (hunger hormone) and suppresses leptin (fullness hormone) for the entire next day.</p>
+          </div>
+
+          <div class="fact-card card-gold">
+            <span class="gem-icon">🦷</span>
+            <span class="category-badge">Oral Health</span>
+            <h3>Flossing may add over 6 years to your life</h3>
+            <p>Periodontal bacteria can enter the bloodstream and significantly raise the risk of heart attack and stroke. Research suggests regular flossers live 6.4 years longer on average than non-flossers, even after controlling for socioeconomic and lifestyle factors.</p>
+          </div>
+
+          <div class="fact-card card-teal">
+            <span class="gem-icon">🫁</span>
+            <span class="category-badge">Breathing</span>
+            <h3>Box breathing (4-4-4-4) activates your parasympathetic system in 90 seconds</h3>
+            <p>Used by Navy SEALs before high-stress operations: inhale 4 counts, hold 4, exhale 4, hold 4. Just 4 cycles demonstrably lower cortisol, reduce blood pressure, and restore rational thinking. It works because the exhale phase directly stimulates the vagus nerve.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Sidebar ── -->
+      <aside class="sidebar">
+        <!-- Adsterra 300×600 -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <div class="ad-placeholder" style="width:300px;height:600px;" id="adsterra-300x600-health">
+            <!-- Adsterra 300×600 zone script here -->
+          </div>
+        </div>
+
+        <!-- Sovrn 300×250 -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <div class="ad-placeholder" style="width:300px;height:250px;" id="sovrn-health-300x250">
+            <!-- Sovrn/VigLink display ad -->
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Infolinks in-text + leaderboard strip -->
+    <div style="margin-top:30px;">
+      <!-- Infolinks in-text ads are injected automatically by the script in <head> -->
+      <!-- Infolinks InFrame ad slot -->
+      <div id="ilabs" class="ad-wrap" style="margin:20px auto;">
+        <!-- Infolinks display (InFrame/InScreen) -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     LEADERBOARD STRIP — Sovrn 728×90
+══════════════════════════════════════════ -->
+<div class="leaderboard-strip light">
+  <div class="ad-wrap">
+    <p class="ad-label">Advertisement</p>
+    <div class="ad-placeholder ad-728x90" id="sovrn-728x90-strip">
+      <!-- Sovrn leaderboard display ad here -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     §4 SCIENCE MIND-BENDERS
+══════════════════════════════════════════ -->
+<section id="section-science" class="almanac-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-icon">🔭</span>
+      <div>
+        <h2 class="section-title" style="color:var(--lime);">Mind-Bending Science Most People Don't Know</h2>
+        <p class="section-lead">Counterintuitive truths from biology, physics, and the natural world.</p>
+      </div>
+    </div>
+
+    <div class="col-layout flipped">
+      <!-- ── Sidebar ── -->
+      <aside class="sidebar">
+        <!-- Amazon Publisher Services 300×250 -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <div class="ad-placeholder" style="width:300px;height:250px;" id="aps-science-300x250">
+            <!-- Amazon Publisher Services (TAM) ad slot here -->
+            <!-- apstag.cmd.push(function(){ apstag.fetchBids({slots:[{slotID:'aps-science-300x250',sizes:[[300,250]]}]},function(){}); }); -->
+          </div>
+        </div>
+
+        <!-- Revcontent native -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <div id="revcontent-sidebar-widget" class="ad-placeholder" style="width:300px;height:250px;">
+            <!-- Revcontent widget — replace with your widget JS -->
+          </div>
+        </div>
+      </aside>
+
+      <!-- ── Main content ── -->
+      <div>
+        <div class="fact-grid">
+          <div class="fact-card card-lime">
+            <span class="gem-icon">🫀</span>
+            <span class="category-badge">Biology</span>
+            <h3>Your circulatory system is 60,000 miles long</h3>
+            <p>If you laid out every blood vessel in an adult human body end to end — arteries, veins, and capillaries — it would circle Earth 2.4 times. Despite this, blood completes a full circuit (heart → extremities → back) in approximately 20–60 seconds.</p>
+          </div>
+
+          <div class="fact-card card-purple">
+            <span class="gem-icon">🐻‍❄️</span>
+            <span class="category-badge">Animal Biology</span>
+            <h3>Polar bears have black skin under transparent fur</h3>
+            <p>Polar bear fur appears white (or yellowish), but each strand is actually hollow and transparent, acting as a fiber-optic tube to channel UV light to black skin underneath. The black skin maximizes heat absorption in Arctic conditions.</p>
+          </div>
+
+          <div class="fact-card card-coral">
+            <span class="gem-icon">🦠</span>
+            <span class="category-badge">Microbiology</span>
+            <h3>Your body has 10× more bacterial cells than human cells</h3>
+            <p>You are, strictly speaking, mostly not "you." For every human cell in your body, there are approximately 10 microbial cells. These 100 trillion microbes collectively contain 3.3 million unique genes, compared to your ~20,000 human genes.</p>
+          </div>
+
+          <!-- Ezoic inline 300×250 -->
+          <div class="inline-ad-card">
+            <p class="ad-label">Advertisement</p>
+            <div id="ezoic-pub-ad-placeholder-103" class="ad-placeholder" style="width:300px;height:250px;">
+              <script>ezstandalone.cmd.push(function(){ ezstandalone.displayAds(103); });</script>
+            </div>
+          </div>
+
+          <div class="fact-card card-gold">
+            <span class="gem-icon">🌊</span>
+            <span class="category-badge">Physics</span>
+            <h3>Quicksand cannot swallow you — physics prevents it</h3>
+            <p>Human body density (~1.0 g/cm³) is roughly half of water-saturated quicksand (~2.0 g/cm³). This means you will never sink below waist-depth without external downward force. The real danger is being trapped for hours — leading to dehydration or tide.</p>
+          </div>
+
+          <div class="fact-card card-teal">
+            <span class="gem-icon">⚡</span>
+            <span class="category-badge">Neuroscience</span>
+            <h3>Your brain processes images in 13 milliseconds — faster than consciousness</h3>
+            <p>MIT research shows the visual system categorizes complex scenes in just 13ms, far faster than the 200ms it takes for conscious awareness. Most of your brain's work happens before you're aware of it — including threat detection, attraction, and many "gut feelings."</p>
+          </div>
+        </div>
+
+        <!-- Revcontent native discovery widget -->
+        <div class="native-widget-wrap" style="border-top-color: var(--lime);">
+          <p class="native-widget-label">You May Also Like — Powered by Revcontent</p>
+          <div id="revcontent-discovery" style="min-height:120px;">
+            <!-- Revcontent widget JS here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     BILLBOARD STRIP — Amazon Publisher Services
+══════════════════════════════════════════ -->
+<div class="leaderboard-strip" style="background: linear-gradient(90deg, #0D1B2A 0%, #1A2040 100%); padding:24px 0;">
+  <div class="ad-wrap">
+    <p class="ad-label" style="color:#555;">Advertisement</p>
+    <!-- Amazon Publisher Services 970×250 via TAM -->
+    <div id="aps-billboard" class="ad-placeholder ad-970x250">
+      <!-- APS TAM bid slot -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     §5 PRODUCTIVITY SECRETS
+══════════════════════════════════════════ -->
+<section id="section-productivity" class="almanac-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-icon">⚡</span>
+      <div>
+        <h2 class="section-title" style="color:var(--purple);">Productivity Secrets of the Ultra-Successful</h2>
+        <p class="section-lead">Counterintuitive strategies used by top performers that never appear in pop-science articles.</p>
+      </div>
+    </div>
+
+    <div class="col-layout">
+      <!-- ── Timeline content ── -->
+      <div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="time-badge">FOCUS</span>
+            <h3>It takes exactly 23 minutes to regain deep focus after an interruption</h3>
+            <p>University of California Irvine research found it takes an average of 23 minutes and 15 seconds to return to the original task after an interruption — not the commonly cited 25 minutes. Check your email in batches; every individual notification costs nearly 25 minutes of output.</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="time-badge">DECISION</span>
+            <h3>Peak decision-making occurs between 90 minutes and 3 hours after waking</h3>
+            <p>The prefrontal cortex (rational decision-making center) takes 90 minutes to reach peak coherence after waking, and starts declining after ~3 hours of use. Schedule your most important creative and strategic work in this window — email, meetings, and admin work should come after lunch.</p>
+          </div>
+
+          <!-- PropellerAds inline -->
+          <div style="margin: 20px 0 20px 0; display:flex; align-items:center; gap:12px;">
+            <div class="ad-wrap">
+              <p class="ad-label">Advertisement</p>
+              <div class="ad-placeholder" style="width:336px;height:280px;" id="propellerads-prod-336">
+                <!-- PropellerAds 336×280 zone -->
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <span class="time-badge">LEARNING</span>
+            <h3>The 20-hour rule: deliberate practice beats talent in 20 hours</h3>
+            <p>Josh Kaufman's "The First 20 Hours" research shows that with deliberate, focused practice of approximately 45 minutes/day, anyone can go from "knowing nothing" to "surprisingly good" at almost any skill in 20 hours. The frustration curve peaks at hour 2–3 — most people quit at exactly the wrong moment.</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="time-badge">MEMORY</span>
+            <h3>The spacing effect: reviewing at 1-day, 1-week, 1-month intervals locks memory forever</h3>
+            <p>Ebbinghaus's forgetting curve shows you forget 70% of new information within 24 hours unless you review. Three spaced repetitions — at 24h, 7 days, and 30 days — moves information into long-term memory with over 90% retention. Anki and Readwise automate this for any content.</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="time-badge">PARKINSON</span>
+            <h3>Parkinson's Law: work expands to fill exactly the time allocated</h3>
+            <p>Give yourself 1 hour for a task and it takes 1 hour. Give yourself 20 minutes, and it often takes 20 minutes with equal or better output. Deliberately under-allocating time for routine tasks is one of the least-known productivity multipliers.</p>
+          </div>
+
+          <div class="timeline-item">
+            <span class="time-badge">ENVIRONMENT</span>
+            <h3>Your environment is more powerful than willpower</h3>
+            <p>Stanford psychologist BJ Fogg's research shows that changing your physical environment (phone placement, food visibility, workspace layout) produces 3× more lasting behavior change than motivational strategies. Design friction into bad habits; reduce friction for good ones.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Sidebar ── -->
+      <aside class="sidebar">
+        <!-- Media.net 300×600 -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <div id="medianet-prod-300x600" class="ad-placeholder" style="width:300px;height:600px;">
+            <script type="text/javascript">
+              window._mNHandle.queue.push(function(){
+                window._mNDetails.loadTag("300X600-PROD", "300x600", "medianet-prod-300x600");
+              });
+            </script>
+          </div>
+        </div>
+
+        <!-- Amazon APS 300×250 -->
+        <div class="ad-wrap">
+          <p class="ad-label">Advertisement</p>
+          <div id="aps-prod-300x250" class="ad-placeholder" style="width:300px;height:250px;">
+            <!-- Amazon APS TAM slot -->
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Leaderboard footer -->
+    <div style="margin-top:40px;">
+      <div class="ad-wrap">
+        <p class="ad-label">Advertisement</p>
+        <!-- AdSense leaderboard footer -->
+        <ins class="adsbygoogle ad-placeholder ad-728x90"
+             style="display:inline-block;"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="4444444444"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FINAL BILLBOARD — AdSense 970×250
+══════════════════════════════════════════ -->
+<div style="background:#F4F5FA; padding:24px 0; text-align:center; border-top: 1px solid #DDE;">
+  <div class="ad-wrap">
+    <p class="ad-label">Advertisement</p>
+    <ins class="adsbygoogle ad-placeholder ad-970x250"
+         style="display:inline-block;"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="5555555555"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-logo">The Hidden <span>Almanac</span></div>
+    <p>Rare facts, actionable knowledge, and the information most people never find.</p>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Advertising Disclosure</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Contact</a>
+    </div>
+    <p style="opacity:.4; margin-top:10px; font-size:.75rem;">
+      This site participates in advertising programs including Google AdSense, Media.net, Ezoic, Taboola, Outbrain, PropellerAds, Adsterra, Infolinks, Amazon Publisher Services, and Sovrn.
+      Ads are clearly labeled. All factual claims are sourced from peer-reviewed research and official government publications.
+    </p>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     STICKY FOOTER AD — AdSense anchor
+══════════════════════════════════════════ -->
+<div id="sticky-footer-ad">
+  <div class="ad-wrap">
+    <!-- AdSense anchor ad (auto format) -->
+    <ins class="adsbygoogle ad-placeholder"
+         style="display:inline-block;width:728px;height:90px;"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="6666666666"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <button id="sticky-close" onclick="document.getElementById('sticky-footer-ad').style.display='none'" aria-label="Close ad">×</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════ -->
+<script>
+  /* ─ Scroll progress bar ─ */
+  window.addEventListener('scroll', function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById('progress-bar').style.width = scrolled + '%';
+  });
+
+  /* ─ Taboola flush ─ */
+  window._taboola = window._taboola || [];
+  _taboola.push({flush: true});
+</script>
+
+</body>
+</html>
