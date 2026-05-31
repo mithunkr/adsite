@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Hidden Almanac — Find the Facts Among the Ads</title>
+  <meta name="description" content="A wall of ads concealing rare, genuinely valuable facts. Hunt carefully — the knowledge is hidden among the sponsors." />
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SERVICE WORKER — first-party ad proxy (defeats URL filters)
+  ═══════════════════════════════════════════════════════════ -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(){});
+    }
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BLOCKTHROUGH — commercial adblock recovery
+  ═══════════════════════════════════════════════════════════ -->
+  <script>
+    window.__btL = window.__btL || [];
+    window.__btL.push({ publisherId:'YOUR_BLOCKTHROUGH_PUBLISHER_ID', selector:'.pub-frame', reinsert:true, fallback:true });
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       AD NETWORK SCRIPTS
+  ═══════════════════════════════════════════════════════════ -->
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous" id="adsense-loader" onerror="window.__adsenseFailed=true;"></script>
+  <!-- Media.net -->
+  <script>window._mNHandle=window._mNHandle||{};window._mNHandle.queue=window._mNHandle.queue||[];</script>
+  <script async src="//contextual.media.net/dmedianet.js?cid=8XXXXXXXX" onerror="window.__mnFailed=true;"></script>
+  <!-- Ezoic -->
+  <script async src="//www.ezojs.com/ezoic/sa.min.js" onerror="window.__ezoicFailed=true;"></script>
+  <script>window.ezstandalone=window.ezstandalone||{};ezstandalone.cmd=ezstandalone.cmd||[];</script>
+  <!-- Infolinks -->
+  <script>var infolinks_pid=0000000;var infolinks_wsid=0;</script>
+  <script async src="//resources.infolinks.com/js/infolinks_main.js" onerror="window.__ilFailed=true;"></script>
+  <!-- PropellerAds -->
+  <script async src="https://a.magsrv.com/ad-provider.js" onerror="window.__propFailed=true;"></script>
+  <!-- Sovrn / VigLink -->
+  <script>var vglnk={key:'API_KEY_HERE'};</script>
+  <script async src="//cdn.viglink.com/api/vglnk.js" onerror="window.__svrnFailed=true;"></script>
+  <!-- Amazon Publisher Services -->
+  <script>
+    !function(a9,a,p,s,t,A,g){if(a[a9])return;function q(c,r){a[a9]._Q.push([c,r])}a[a9]={init:function(){q("i",arguments)},fetchBids:function(){q("f",arguments)},setDisplayBids:function(){},targetingKeys:function(){return[]},_Q:[]};A=p.createElement(s);A.async=!0;A.src=t;g=p.getElementsByTagName(s)[0];g.parentNode.insertBefore(A,g);}("apstag",window,document,"script","//c.amazon-adsystem.com/aax2/apstag.js");
+    apstag.init({pubID:'YOUR_APS_PUBID',adServer:'googletag'});
+  </script>
+  <!-- Taboola -->
+  <script>
+    window._taboola=window._taboola||[];_taboola.push({article:'auto'});
+    !function(e,f,u){e.async=1;e.src=u;f.parentNode.insertBefore(e,f);}(document.createElement('script'),document.getElementsByTagName('script')[0],'//cdn.taboola.com/libtrc/YOUR_PUBLISHER_ID/loader.js');
+  </script>
+  <!-- Outbrain -->
+  <script async src="https://widgets.outbrain.com/outbrain.js" onerror="window.__obFailed=true;"></script>
+
+  <style>
+    /* ══════════════════════════════════════════ RESET ══════════════════════════════════════════ */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --teal:#0D7377;--coral:#E8524A;--gold:#F0A500;--gold-lt:#F7C948;
+      --purple:#7B3FA0;--lime:#1E9650;--lime-lt:#2ECC71;
+      --ink:#13132b;--slate:#3A3A5C;--fog:#0c0c1a;--white:#fff;
+      --r:10px;--sh:0 4px 18px rgba(0,0,0,.35);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Trebuchet MS','Segoe UI',sans-serif;background:var(--fog);color:#e8e8f0;line-height:1.5;overflow-x:hidden}
+
+    /* Disclosure tag */
+    .disc-tag{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#888;text-align:center;margin-bottom:3px}
+
+    /* ══════════════════════════════════════════
+       AD-WALL GRID — the page IS a wall of ads
+    ══════════════════════════════════════════ */
+    .adwall{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+      grid-auto-rows:90px;
+      grid-auto-flow:dense;
+      gap:8px;
+      padding:8px;
+      max-width:1600px;
+      margin:0 auto;
+    }
+
+    /* generic tile */
+    .tile{
+      border-radius:var(--r);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--sh);
+    }
+
+    /* ── tile span sizes (these mimic standard IAB ad sizes) ── */
+    .t-mrec{grid-column:span 2;grid-row:span 3}   /* ~300x250 medium rectangle */
+    .t-lrec{grid-column:span 2;grid-row:span 3}   /* ~336x280 large rectangle */
+    .t-ldr {grid-column:span 5;grid-row:span 1}   /* ~728x90 leaderboard */
+    .t-bbd {grid-column:span 6;grid-row:span 3}   /* ~970x250 billboard */
+    .t-hpg {grid-column:span 2;grid-row:span 7}   /* ~300x600 half page */
+    .t-sky {grid-column:span 1;grid-row:span 7}   /* ~160x600 skyscraper */
+    .t-sq  {grid-column:span 2;grid-row:span 2}   /* ~250x250 square */
+    .t-sm  {grid-column:span 1;grid-row:span 2}   /* small button */
+    @media(max-width:760px){
+      .t-bbd{grid-column:span 4;grid-row:span 2}
+      .t-ldr{grid-column:span 4}
+      .t-hpg{grid-column:span 2;grid-row:span 4}
+      .adwall{grid-template-columns:repeat(4,1fr);grid-auto-rows:70px}
+    }
+
+    /* ── ad slot visual (placeholder until network fills it) ── */
+    .prm-slot{
+      width:100%;height:100%;
+      background:linear-gradient(135deg,#23234a 0%,#2d1f47 100%);
+      border:1px solid rgba(255,255,255,.06);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      color:#6b6b9a;font-size:11px;font-weight:700;text-align:center;
+      position:relative;
+    }
+    .prm-slot::after{
+      content:"ADVERTISEMENT";
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      font-size:9px;letter-spacing:2px;color:#4a4a78;opacity:.7;
+    }
+    /* colored ad tiles for visual variety (so the wall looks lively, not gray) */
+    .ad-a .prm-slot{background:linear-gradient(135deg,#0D7377,#14A085)}
+    .ad-b .prm-slot{background:linear-gradient(135deg,#7B3FA0,#A855C8)}
+    .ad-c .prm-slot{background:linear-gradient(135deg,#E8524A,#f07b54)}
+    .ad-d .prm-slot{background:linear-gradient(135deg,#F0A500,#F7C948)}
+    .ad-e .prm-slot{background:linear-gradient(135deg,#1E9650,#2ECC71)}
+    .ad-f .prm-slot{background:linear-gradient(135deg,#2c3e87,#4a5fc1)}
+    .ad-a .prm-slot,.ad-b .prm-slot,.ad-c .prm-slot,.ad-d .prm-slot,.ad-e .prm-slot,.ad-f .prm-slot{color:rgba(255,255,255,.85)}
+    .ad-d .prm-slot{color:rgba(0,0,0,.6)}
+    .ad-a .prm-slot::after,.ad-b .prm-slot::after,.ad-c .prm-slot::after,
+    .ad-e .prm-slot::after,.ad-f .prm-slot::after{color:rgba(255,255,255,.45)}
+    .ad-d .prm-slot::after{color:rgba(0,0,0,.35)}
+
+    .slot-tag{position:absolute;top:5px;left:6px;font-size:8px;letter-spacing:1px;opacity:.6;text-transform:uppercase;z-index:2}
+
+    /* ══════════════════════════════════════════
+       HIDDEN CONTENT TILES — the "gems" buried in the wall
+       Deliberately understated so the user must HUNT for them.
+    ══════════════════════════════════════════ */
+    .gem-tile{
+      background:#16162e;
+      border:1px solid rgba(240,165,0,.25);
+      color:#cfcfe6;
+      padding:10px 12px;
+      cursor:pointer;
+      transition:transform .18s, box-shadow .18s, border-color .18s;
+      align-items:flex-start;
+      justify-content:center;
+      text-align:left;
+      overflow:auto;
+    }
+    .gem-tile:hover{
+      transform:scale(1.02);
+      border-color:var(--gold);
+      box-shadow:0 0 0 2px rgba(240,165,0,.4), var(--sh);
+      z-index:5;
+    }
+    /* faint marker — easy to miss unless you scan */
+    .gem-tile .gem-mark{
+      font-size:13px;opacity:.4;margin-bottom:4px;display:block;
+    }
+    .gem-tile:hover .gem-mark{opacity:1}
+    .gem-tile .gem-cat{
+      font-size:8px;letter-spacing:1.2px;text-transform:uppercase;
+      color:var(--gold-lt);opacity:.6;margin-bottom:5px;
+    }
+    .gem-tile h3{font-size:12.5px;line-height:1.35;color:#fff;font-weight:700;margin-bottom:5px}
+    .gem-tile p{
+      font-size:11px;line-height:1.45;color:#aaa;
+      max-height:0;overflow:hidden;opacity:0;
+      transition:max-height .3s ease, opacity .3s ease, margin .3s ease;
+    }
+    /* reveal full fact on hover/focus/expand — rewards the hunt */
+    .gem-tile:hover p,
+    .gem-tile.open p,
+    .gem-tile:focus-within p{max-height:300px;opacity:1;margin-top:4px}
+    .gem-tile.found{border-color:var(--lime-lt)}
+
+    /* gem occupying a rectangle slot */
+    .gem-rec{grid-column:span 2;grid-row:span 3}
+    .gem-wide{grid-column:span 3;grid-row:span 2}
+    .gem-tall{grid-column:span 2;grid-row:span 4}
+    .gem-sm{grid-column:span 2;grid-row:span 2}
+    @media(max-width:760px){
+      .gem-rec,.gem-wide,.gem-tall,.gem-sm{grid-column:span 2;grid-row:span 3}
+    }
+
+    /* ══════════════════════════════════════════
+       TOP STRIP / HEADER
+    ══════════════════════════════════════════ */
+    header.masthead{
+      background:linear-gradient(90deg,var(--teal),var(--purple),var(--coral));
+      padding:10px 14px;
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:8px;
+      position:sticky;top:0;z-index:800;
+      box-shadow:0 2px 16px rgba(0,0,0,.5);
+    }
+    .masthead .logo{font-size:1.05rem;font-weight:900;color:#fff;letter-spacing:-.5px;white-space:nowrap}
+    .masthead .logo span{color:var(--gold-lt)}
+    .masthead .hunt-hint{
+      font-size:11px;color:rgba(255,255,255,.9);
+      background:rgba(0,0,0,.25);padding:5px 12px;border-radius:30px;
+    }
+    .masthead .hunt-hint b{color:var(--gold-lt)}
+    .gem-counter{
+      font-size:11px;font-weight:700;color:#fff;
+      background:rgba(0,0,0,.3);padding:5px 12px;border-radius:30px;white-space:nowrap;
+    }
+    .gem-counter span{color:var(--gold-lt)}
+
+    /* scrolling ticker of teasers */
+    .ticker-bar{background:var(--gold);color:#1a1a2e;font-size:.74rem;font-weight:700;padding:5px 0;overflow:hidden;white-space:nowrap}
+    .ticker-inner{display:inline-flex;animation:tick 38s linear infinite}
+    .ticker-item{margin-right:50px}
+    .ticker-item::before{content:"🔍 "}
+    @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+    /* ── toast when a gem is found ── */
+    #toast{
+      position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+      background:var(--lime);color:#fff;padding:10px 22px;border-radius:30px;
+      font-size:13px;font-weight:700;z-index:9000;opacity:0;pointer-events:none;
+      transition:opacity .3s, transform .3s;box-shadow:0 6px 24px rgba(0,0,0,.4);
+    }
+    #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    /* ── progress bar ── */
+    #prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--coral));z-index:1000;transition:width .1s}
+
+    /* ── soft adblock gate ── */
+    #abrec-overlay{position:fixed;bottom:0;left:0;right:0;z-index:10000;background:linear-gradient(135deg,var(--ink),var(--slate));color:#fff;padding:20px 26px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;box-shadow:0 -6px 40px rgba(0,0,0,.5);transform:translateY(100%);transition:transform .4s cubic-bezier(.22,1,.36,1)}
+    #abrec-overlay.visible{transform:translateY(0)}
+    #abrec-overlay .abrec-icon{font-size:2rem}
+    #abrec-overlay .abrec-body{flex:1;min-width:200px}
+    #abrec-overlay h3{font-size:1rem;margin-bottom:3px}
+    #abrec-overlay p{font-size:.8rem;opacity:.8}
+    .abrec-btn{padding:9px 20px;border-radius:30px;font-size:.82rem;font-weight:700;cursor:pointer;border:none;text-decoration:none;white-space:nowrap}
+    .abrec-primary{background:var(--gold);color:#1a1a2e}
+    .abrec-secondary{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.4)}
+    .abrec-close{position:absolute;top:8px;right:10px;background:rgba(255,255,255,.12);border:none;color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:13px}
+
+    /* ── fallback affiliate fill ── */
+    .fallback-card{display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:10px;text-align:center;background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff}
+    .fallback-card.show{display:flex}
+    .fallback-card .fb-tag{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;opacity:.5}
+    .fallback-card h4{font-size:11px;font-weight:700;line-height:1.3}
+    .fallback-card p{font-size:9px;opacity:.7;line-height:1.3}
+    .fallback-card a{margin-top:3px;padding:5px 14px;background:var(--gold);color:#1a1a2e;border-radius:30px;font-weight:700;font-size:10px;text-decoration:none}
+
+    /* ── sticky footer anchor ── */
+    #sticky-footer{position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(12,12,26,.97);display:flex;align-items:center;justify-content:center;padding:6px;box-shadow:0 -4px 20px rgba(0,0,0,.5)}
+    #sticky-footer .prm-slot{width:728px;max-width:calc(100% - 40px);height:80px}
+    #sticky-close{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:13px}
+
+    footer.sitefoot{background:#080814;color:rgba(255,255,255,.5);padding:30px 16px 90px;text-align:center;font-size:.74rem}
+    footer.sitefoot a{color:var(--gold-lt);text-decoration:none}
+    .foot-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+  </style>
+</head>
+<body>
+
+<div id="prog" style="width:0%"></div>
+
+<!-- ══════════════════════════════════════════ MASTHEAD ══════════════════════════════════════════ -->
+<header class="masthead">
+  <div class="logo">The Hidden <span>Almanac</span></div>
+  <div class="hunt-hint">A wall of ads. <b>15 rare facts</b> are hidden inside. Can you find them all?</div>
+  <div class="gem-counter">💎 Found: <span id="gem-count">0</span>/15</div>
+</header>
+
+<!-- ── teaser ticker ── -->
+<div class="ticker-bar" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ticker-item">Look closely between the ads…</span>
+    <span class="ticker-item">Some tiles aren't ads at all</span>
+    <span class="ticker-item">Hover the glowing-bordered boxes</span>
+    <span class="ticker-item">Each hidden fact could save you thousands</span>
+    <span class="ticker-item">The more you scroll, the more you find</span>
+    <span class="ticker-item">Click a gem to lock it as "found"</span>
+    <span class="ticker-item">Look closely between the ads…</span>
+    <span class="ticker-item">Some tiles aren't ads at all</span>
+    <span class="ticker-item">Hover the glowing-bordered boxes</span>
+    <span class="ticker-item">Each hidden fact could save you thousands</span>
+    <span class="ticker-item">The more you scroll, the more you find</span>
+    <span class="ticker-item">Click a gem to lock it as "found"</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     THE AD WALL
+     The grid is mostly ad slots. Content "gems" are
+     scattered in and styled to blend, so visitors must hunt.
+══════════════════════════════════════════ -->
+<main class="adwall" id="adwall">
+
+  <!-- ROW BLOCK 1 -->
+  <div class="tile ad-f t-bbd pub-frame"><div class="prm-slot" id="slot-1"><span class="slot-tag">AdSense</span></div>
+    <div class="fallback-card" id="fb-1"><span class="fb-tag">Sponsored</span><h4>High-Yield Savings — 5.00% APY</h4><a href="https://www.bankrate.com/banking/savings/best-high-yield-interests-savings-accounts/" rel="noopener sponsored" target="_blank">Compare →</a></div>
+  </div>
+  <div class="tile ad-a t-mrec pub-frame"><div class="prm-slot" id="slot-2"><span class="slot-tag">Media.net</span></div>
+    <div class="fallback-card" id="fb-2"><span class="fb-tag">Sponsored</span><h4>Life Insurance $16/mo</h4><a href="https://www.policygenius.com/life-insurance/" rel="noopener sponsored" target="_blank">Quotes →</a></div>
+  </div>
+  <div class="tile ad-c t-sq pub-frame"><div class="prm-slot" id="slot-3"><span class="slot-tag">Ezoic</span></div>
+    <div class="fallback-card" id="fb-3"><span class="fb-tag">Sponsored</span><h4>5% Cash Back Cards</h4><a href="https://www.nerdwallet.com/best/credit-cards/cash-back" rel="noopener sponsored" target="_blank">Apply →</a></div>
+  </div>
+
+  <!-- GEM 1 (finance) — tucked among ads -->
+  <div class="gem-tile gem-rec" tabindex="0" data-gem="1">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Finance</span>
+    <h3>The only triple-tax-free account</h3>
+    <p>An HSA is pre-tax in, tax-free growth, AND tax-free out for medical costs — no IRA or 401(k) matches all three. 2025 limits: $4,300 solo / $8,550 family. After 65 it works like a second IRA.</p>
+  </div>
+
+  <div class="tile ad-d t-sky pub-frame"><div class="prm-slot" id="slot-4"><span class="slot-tag">Adsterra</span></div>
+    <div class="fallback-card" id="fb-4"><span class="fb-tag">Sponsored</span><h4>ID Theft Protection</h4><a href="https://www.identityguard.com" rel="noopener sponsored" target="_blank">Protect →</a></div>
+  </div>
+  <div class="tile ad-b t-mrec pub-frame"><div class="prm-slot" id="slot-5"><span class="slot-tag">PropellerAds</span></div>
+    <div class="fallback-card" id="fb-5"><span class="fb-tag">Sponsored</span><h4>DNA Health Test</h4><a href="https://www.23andme.com/health-ancestry/" rel="noopener sponsored" target="_blank">Order →</a></div>
+  </div>
+  <div class="tile ad-e t-sq pub-frame"><div class="prm-slot" id="slot-6"><span class="slot-tag">Sovrn</span></div>
+    <div class="fallback-card" id="fb-6"><span class="fb-tag">Sponsored</span><h4>Online Therapy $65/wk</h4><a href="https://www.betterhelp.com" rel="noopener sponsored" target="_blank">Match →</a></div>
+  </div>
+
+  <!-- Leaderboard -->
+  <div class="tile ad-f t-ldr pub-frame"><div class="prm-slot" id="slot-7"><span class="slot-tag">AdSense</span></div>
+    <div class="fallback-card" id="fb-7"><span class="fb-tag">Sponsored</span><h4>Personal Loans 6.99% APR — Funded Same Day</h4><a href="https://www.sofi.com/personal-loans/" rel="noopener sponsored" target="_blank">Check rate →</a></div>
+  </div>
+
+  <!-- GEM 2 (legal) -->
+  <div class="gem-tile gem-sm" tabindex="0" data-gem="2">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Legal</span>
+    <h3>You can read your own personnel file</h3>
+    <p>In 30+ US states, employees have a statutory right to inspect their employer's file — reviews, write-ups, hiring notes. Crucial before any dispute or termination.</p>
+  </div>
+
+  <div class="tile ad-a t-sq pub-frame"><div class="prm-slot" id="slot-8"><span class="slot-tag">Taboola</span></div>
+    <div class="fallback-card" id="fb-8"><span class="fb-tag">Sponsored</span><h4>Bank Bonus up to $500</h4><a href="https://www.bankrate.com/banking/best-bank-account-bonuses/" rel="noopener sponsored" target="_blank">Claim →</a></div>
+  </div>
+  <div class="tile ad-c t-mrec pub-frame"><div class="prm-slot" id="slot-9"><span class="slot-tag">Amazon APS</span></div>
+    <div class="fallback-card" id="fb-9"><span class="fb-tag">Sponsored</span><h4>Prime — Free Trial</h4><a href="https://www.amazon.com/prime" rel="noopener sponsored" target="_blank">Try →</a></div>
+  </div>
+
+  <!-- Billboard -->
+  <div class="tile ad-b t-bbd pub-frame"><div class="prm-slot" id="slot-10"><span class="slot-tag">Ezoic Billboard</span></div>
+    <div class="fallback-card" id="fb-10"><span class="fb-tag">Sponsored</span><h4>Mortgage Refi from 6.24% APR — Close in 21 Days</h4><a href="https://www.bankrate.com/mortgages/refinance/" rel="noopener sponsored" target="_blank">Get rate →</a></div>
+  </div>
+
+  <!-- GEM 3 (health) -->
+  <div class="gem-tile gem-tall" tabindex="0" data-gem="3">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Health</span>
+    <h3>40 oz of water/day → up to 54% lower heart-attack risk</h3>
+    <p>A Loma Linda study of 20,000+ people: women drinking 5+ glasses daily had 41% lower fatal coronary risk; men 54% lower. Most adults chronically drink under half that.</p>
+  </div>
+
+  <div class="tile ad-d t-mrec pub-frame"><div class="prm-slot" id="slot-11"><span class="slot-tag">PropellerAds</span></div>
+    <div class="fallback-card" id="fb-11"><span class="fb-tag">Sponsored</span><h4>Standing Desk — Ships 3 Days</h4><a href="https://www.amazon.com/s?k=electric+standing+desk" rel="noopener sponsored" target="_blank">Shop →</a></div>
+  </div>
+  <div class="tile ad-e t-sm pub-frame"><div class="prm-slot" id="slot-12"><span class="slot-tag">Infolinks</span></div>
+    <div class="fallback-card" id="fb-12"><span class="fb-tag">Sponsored</span><h4>Audible</h4><a href="https://www.amazon.com/Audible" rel="noopener sponsored" target="_blank">Try →</a></div>
+  </div>
+  <div class="tile ad-a t-sq pub-frame"><div class="prm-slot" id="slot-13"><span class="slot-tag">Media.net</span></div>
+    <div class="fallback-card" id="fb-13"><span class="fb-tag">Sponsored</span><h4>Air Purifier HEPA</h4><a href="https://www.amazon.com/s?k=air+purifier+hepa" rel="noopener sponsored" target="_blank">Shop →</a></div>
+  </div>
+
+  <!-- GEM 4 (finance) -->
+  <div class="gem-tile gem-wide" tabindex="0" data-gem="4">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Finance</span>
+    <h3>You can negotiate medical bills AFTER insurance pays</h3>
+    <p>Hospitals carry a "chargemaster" price and a lower accepted price. 78% of patients who simply ask for a reduction get one (avg 35–50% off). Request the itemized bill first — 80% contain errors.</p>
+  </div>
+
+  <div class="tile ad-c t-hpg pub-frame"><div class="prm-slot" id="slot-14"><span class="slot-tag">Media.net Half-Page</span></div>
+    <div class="fallback-card" id="fb-14"><span class="fb-tag">Sponsored</span><h4>Weight Loss Program — Doctor Supervised</h4><p>Avg 15 lbs in 60 days</p><a href="https://www.noom.com" rel="noopener sponsored" target="_blank">Quiz →</a></div>
+  </div>
+  <div class="tile ad-f t-mrec pub-frame"><div class="prm-slot" id="slot-15"><span class="slot-tag">AdSense</span></div>
+    <div class="fallback-card" id="fb-15"><span class="fb-tag">Sponsored</span><h4>Online MBA — 100% Remote</h4><a href="https://www.coursera.org/degrees" rel="noopener sponsored" target="_blank">Info →</a></div>
+  </div>
+  <div class="tile ad-b t-sq pub-frame"><div class="prm-slot" id="slot-16"><span class="slot-tag">Revcontent</span></div>
+    <div class="fallback-card" id="fb-16"><span class="fb-tag">Sponsored</span><h4>Courses $12.99/mo</h4><a href="https://www.coursera.org" rel="noopener sponsored" target="_blank">Browse →</a></div>
+  </div>
+
+  <!-- GEM 5 (health) -->
+  <div class="gem-tile gem-sm" tabindex="0" data-gem="5">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Health</span>
+    <h3>Cold showers, 30 days → 29% fewer sick days</h3>
+    <p>A 2016 Dutch RCT (n=3,018) found this vs a hot-shower control. Duration beats temperature — 30–90 seconds is enough.</p>
+  </div>
+
+  <div class="tile ad-d t-ldr pub-frame"><div class="prm-slot" id="slot-17"><span class="slot-tag">Sovrn Leaderboard</span></div>
+    <div class="fallback-card" id="fb-17"><span class="fb-tag">Sponsored</span><h4>Mental Health App — CBT-based, free to start</h4><a href="https://www.headspace.com" rel="noopener sponsored" target="_blank">Try free →</a></div>
+  </div>
+
+  <!-- GEM 6 (science) -->
+  <div class="gem-tile gem-rec" tabindex="0" data-gem="6">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Science</span>
+    <h3>Quicksand physically can't swallow you</h3>
+    <p>Your body density (~1.0 g/cm³) is about half that of saturated quicksand (~2.0). You can't sink past your waist without downward force. The real risk is being stuck for hours.</p>
+  </div>
+
+  <div class="tile ad-a t-mrec pub-frame"><div class="prm-slot" id="slot-18"><span class="slot-tag">Amazon APS</span></div>
+    <div class="fallback-card" id="fb-18"><span class="fb-tag">Sponsored</span><h4>Telescope — See Jupiter Tonight</h4><a href="https://www.amazon.com/s?k=telescope+for+beginners" rel="noopener sponsored" target="_blank">Shop →</a></div>
+  </div>
+  <div class="tile ad-e t-sq pub-frame"><div class="prm-slot" id="slot-19"><span class="slot-tag">Ezoic</span></div>
+    <div class="fallback-card" id="fb-19"><span class="fb-tag">Sponsored</span><h4>Noise-Cancel Headphones</h4><a href="https://www.amazon.com/s?k=noise+cancelling+headphones" rel="noopener sponsored" target="_blank">Shop →</a></div>
+  </div>
+  <div class="tile ad-c t-sm pub-frame"><div class="prm-slot" id="slot-20"><span class="slot-tag">PropellerAds</span></div>
+    <div class="fallback-card" id="fb-20"><span class="fb-tag">Sponsored</span><h4>Todoist</h4><a href="https://todoist.com" rel="noopener sponsored" target="_blank">Try →</a></div>
+  </div>
+
+  <!-- GEM 7 (legal) -->
+  <div class="gem-tile gem-wide" tabindex="0" data-gem="7">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Legal</span>
+    <h3>EU261: up to €600 for delayed flights — any nationality</h3>
+    <p>Flight to/from any EU airport delayed 3+ hrs or cancelled? You're owed €250–€600 per passenger, even on Delta/United/American. Most travelers never claim it.</p>
+  </div>
+
+  <div class="tile ad-b t-hpg pub-frame"><div class="prm-slot" id="slot-21"><span class="slot-tag">Adsterra Half-Page</span></div>
+    <div class="fallback-card" id="fb-21"><span class="fb-tag">Sponsored</span><h4>Legal Forms — Wills & LLCs</h4><p>No attorney fees</p><a href="https://www.legalzoom.com" rel="noopener sponsored" target="_blank">Start →</a></div>
+  </div>
+  <div class="tile ad-f t-bbd pub-frame"><div class="prm-slot" id="slot-22"><span class="slot-tag">Amazon APS Billboard</span></div>
+    <div class="fallback-card" id="fb-22"><span class="fb-tag">Sponsored</span><h4>Amazon Prime — Free 2-Day Shipping + Video</h4><a href="https://www.amazon.com/prime" rel="noopener sponsored" target="_blank">Free trial →</a></div>
+  </div>
+
+  <!-- GEM 8 (productivity) -->
+  <div class="gem-tile gem-sm" tabindex="0" data-gem="8">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Productivity</span>
+    <h3>23 minutes to refocus after one interruption</h3>
+    <p>UC Irvine: 23 min 15 sec average recovery. Every ping costs ~25 min of output. Batch your notifications.</p>
+  </div>
+
+  <div class="tile ad-a t-mrec pub-frame"><div class="prm-slot" id="slot-23"><span class="slot-tag">Media.net</span></div>
+    <div class="fallback-card" id="fb-23"><span class="fb-tag">Sponsored</span><h4>Investing App — $0 Fees</h4><a href="https://www.betterment.com" rel="noopener sponsored" target="_blank">Start →</a></div>
+  </div>
+  <div class="tile ad-d t-sq pub-frame"><div class="prm-slot" id="slot-24"><span class="slot-tag">Taboola</span></div>
+    <div class="fallback-card" id="fb-24"><span class="fb-tag">Sponsored</span><h4>Tax Filing — Max Refund</h4><a href="https://www.turbotax.com" rel="noopener sponsored" target="_blank">Free →</a></div>
+  </div>
+
+  <!-- GEM 9 (finance) -->
+  <div class="gem-tile gem-rec" tabindex="0" data-gem="9">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Finance</span>
+    <h3>$500/mo on coffee & takeout = $230k lost</h3>
+    <p>At 7% over 30 years, $500/mo invested becomes $566,764. The cost isn't the latte — it's the opportunity cost compounding silently.</p>
+  </div>
+
+  <div class="tile ad-c t-sky pub-frame"><div class="prm-slot" id="slot-25"><span class="slot-tag">Sovrn Skyscraper</span></div>
+    <div class="fallback-card" id="fb-25"><span class="fb-tag">Sponsored</span><h4>Credit Score — Free</h4><a href="https://www.creditkarma.com" rel="noopener sponsored" target="_blank">Check →</a></div>
+  </div>
+  <div class="tile ad-e t-mrec pub-frame"><div class="prm-slot" id="slot-26"><span class="slot-tag">Ezoic</span></div>
+    <div class="fallback-card" id="fb-26"><span class="fb-tag">Sponsored</span><h4>VPN — 3 Yrs 82% Off</h4><a href="https://nordvpn.com" rel="noopener sponsored" target="_blank">Get →</a></div>
+  </div>
+  <div class="tile ad-b t-sq pub-frame"><div class="prm-slot" id="slot-27"><span class="slot-tag">PropellerAds</span></div>
+    <div class="fallback-card" id="fb-27"><span class="fb-tag">Sponsored</span><h4>Meal Kit 60% Off</h4><a href="https://www.hellofresh.com" rel="noopener sponsored" target="_blank">Order →</a></div>
+  </div>
+
+  <!-- GEM 10 (health) -->
+  <div class="gem-tile gem-wide" tabindex="0" data-gem="10">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Health</span>
+    <h3>Box breathing (4-4-4-4) calms you in 90 seconds</h3>
+    <p>Navy SEAL technique: inhale 4, hold 4, exhale 4, hold 4. Four cycles lower cortisol — the long exhale stimulates the vagus nerve directly.</p>
+  </div>
+
+  <div class="tile ad-f t-ldr pub-frame"><div class="prm-slot" id="slot-28"><span class="slot-tag">AdSense Leaderboard</span></div>
+    <div class="fallback-card" id="fb-28"><span class="fb-tag">Sponsored</span><h4>Online Degree — Top School, 18 Months, Remote</h4><a href="https://www.coursera.org/degrees" rel="noopener sponsored" target="_blank">Apply →</a></div>
+  </div>
+
+  <!-- GEM 11 (science) -->
+  <div class="gem-tile gem-sm" tabindex="0" data-gem="11">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Science</span>
+    <h3>You have 10× more microbial cells than human</h3>
+    <p>~100 trillion microbes carry 3.3M genes vs your ~20,000. Strictly speaking, you're mostly not "you."</p>
+  </div>
+
+  <div class="tile ad-a t-mrec pub-frame"><div class="prm-slot" id="slot-29"><span class="slot-tag">Media.net</span></div>
+    <div class="fallback-card" id="fb-29"><span class="fb-tag">Sponsored</span><h4>Home Insurance — Compare</h4><a href="https://www.policygenius.com/homeowners-insurance/" rel="noopener sponsored" target="_blank">Quotes →</a></div>
+  </div>
+  <div class="tile ad-c t-sq pub-frame"><div class="prm-slot" id="slot-30"><span class="slot-tag">Amazon APS</span></div>
+    <div class="fallback-card" id="fb-30"><span class="fb-tag">Sponsored</span><h4>Kindle Unlimited</h4><a href="https://www.amazon.com/kindle-dbs/hz/signup" rel="noopener sponsored" target="_blank">Try →</a></div>
+  </div>
+
+  <!-- GEM 12 (legal) -->
+  <div class="gem-tile gem-rec" tabindex="0" data-gem="12">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Legal</span>
+    <h3>Debt collectors can't call before 8am or after 9pm</h3>
+    <p>The FDCPA forbids it. Send a written cease-and-desist and all contact must stop. Violations = $1,000 statutory damages per incident, collectible in small claims.</p>
+  </div>
+
+  <div class="tile ad-d t-mrec pub-frame"><div class="prm-slot" id="slot-31"><span class="slot-tag">PropellerAds</span></div>
+    <div class="fallback-card" id="fb-31"><span class="fb-tag">Sponsored</span><h4>Web Hosting $2.95/mo</h4><a href="https://www.bluehost.com" rel="noopener sponsored" target="_blank">Get →</a></div>
+  </div>
+  <div class="tile ad-b t-sm pub-frame"><div class="prm-slot" id="slot-32"><span class="slot-tag">Infolinks</span></div>
+    <div class="fallback-card" id="fb-32"><span class="fb-tag">Sponsored</span><h4>Grammarly</h4><a href="https://www.grammarly.com" rel="noopener sponsored" target="_blank">Free →</a></div>
+  </div>
+  <div class="tile ad-e t-sq pub-frame"><div class="prm-slot" id="slot-33"><span class="slot-tag">Sovrn</span></div>
+    <div class="fallback-card" id="fb-33"><span class="fb-tag">Sponsored</span><h4>Pet Insurance</h4><a href="https://www.lemonade.com/pet" rel="noopener sponsored" target="_blank">Quote →</a></div>
+  </div>
+
+  <!-- GEM 13 (productivity) -->
+  <div class="gem-tile gem-wide" tabindex="0" data-gem="13">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Productivity</span>
+    <h3>Parkinson's Law: work fills the time you give it</h3>
+    <p>Allot 1 hour, it takes 1 hour. Allot 20 minutes, it often takes 20 — same output. Deliberately under-budgeting routine tasks is a quiet productivity multiplier.</p>
+  </div>
+
+  <div class="tile ad-f t-bbd pub-frame"><div class="prm-slot" id="slot-34"><span class="slot-tag">AdSense Billboard</span></div>
+    <div class="fallback-card" id="fb-34"><span class="fb-tag">Sponsored</span><h4>Refinance Student Loans — Rates from 4.99%</h4><a href="https://www.sofi.com/refinance-student-loan/" rel="noopener sponsored" target="_blank">Check →</a></div>
+  </div>
+
+  <!-- GEM 14 (science) -->
+  <div class="gem-tile gem-sm" tabindex="0" data-gem="14">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Science</span>
+    <h3>Polar bears have black skin under clear fur</h3>
+    <p>Each hair is hollow and transparent, funneling UV to black skin that soaks up heat. The "white" is just light scattering.</p>
+  </div>
+
+  <div class="tile ad-a t-mrec pub-frame"><div class="prm-slot" id="slot-35"><span class="slot-tag">Media.net</span></div>
+    <div class="fallback-card" id="fb-35"><span class="fb-tag">Sponsored</span><h4>Car Insurance — Save $500</h4><a href="https://www.thezebra.com" rel="noopener sponsored" target="_blank">Compare →</a></div>
+  </div>
+  <div class="tile ad-c t-sq pub-frame"><div class="prm-slot" id="slot-36"><span class="slot-tag">Ezoic</span></div>
+    <div class="fallback-card" id="fb-36"><span class="fb-tag">Sponsored</span><h4>Password Manager</h4><a href="https://1password.com" rel="noopener sponsored" target="_blank">Try →</a></div>
+  </div>
+  <div class="tile ad-d t-ldr pub-frame"><div class="prm-slot" id="slot-37"><span class="slot-tag">Taboola Native</span></div>
+    <div class="fallback-card" id="fb-37"><span class="fb-tag">Sponsored</span><h4>Best Robo-Advisors of 2025 — Ranked & Reviewed</h4><a href="https://www.nerdwallet.com/best/investing/robo-advisors" rel="noopener sponsored" target="_blank">See list →</a></div>
+  </div>
+
+  <!-- GEM 15 (finance/retirement) -->
+  <div class="gem-tile gem-rec" tabindex="0" data-gem="15">
+    <span class="gem-mark">💎</span>
+    <span class="gem-cat">Hidden Fact · Retirement</span>
+    <h3>The 4% rule quietly became 3.3%</h3>
+    <p>Bengen's 4% was built for 30-year retirements. For 40+ year retirements (retiring at 55–60), updated research says 3.3% is the safer inflation-adjusted withdrawal rate.</p>
+  </div>
+
+  <div class="tile ad-b t-mrec pub-frame"><div class="prm-slot" id="slot-38"><span class="slot-tag">PropellerAds</span></div>
+    <div class="fallback-card" id="fb-38"><span class="fb-tag">Sponsored</span><h4>Crypto — Buy in Minutes</h4><a href="https://www.coinbase.com" rel="noopener sponsored" target="_blank">Start →</a></div>
+  </div>
+  <div class="tile ad-e t-hpg pub-frame"><div class="prm-slot" id="slot-39"><span class="slot-tag">Amazon APS Half-Page</span></div>
+    <div class="fallback-card" id="fb-39"><span class="fb-tag">Sponsored</span><h4>Smart Home Bundle</h4><p>Save 40% this week</p><a href="https://www.amazon.com/smart-home" rel="noopener sponsored" target="_blank">Shop →</a></div>
+  </div>
+  <div class="tile ad-f t-mrec pub-frame"><div class="prm-slot" id="slot-40"><span class="slot-tag">AdSense</span></div>
+    <div class="fallback-card" id="fb-40"><span class="fb-tag">Sponsored</span><h4>Travel Deals — 70% Off</h4><a href="https://www.expedia.com" rel="noopener sponsored" target="_blank">Book →</a></div>
+  </div>
+  <div class="tile ad-a t-sq pub-frame"><div class="prm-slot" id="slot-41"><span class="slot-tag">Media.net</span></div>
+    <div class="fallback-card" id="fb-41"><span class="fb-tag">Sponsored</span><h4>Solar — $0 Down</h4><a href="https://www.sunrun.com" rel="noopener sponsored" target="_blank">Quote →</a></div>
+  </div>
+  <div class="tile ad-c t-ldr pub-frame"><div class="prm-slot" id="slot-42"><span class="slot-tag">Outbrain Native</span></div>
+    <div class="fallback-card" id="fb-42"><span class="fb-tag">Sponsored</span><h4>The 9 Best Budgeting Apps — Hand-Tested for 2025</h4><a href="https://www.nerdwallet.com/article/finance/best-budget-apps" rel="noopener sponsored" target="_blank">See picks →</a></div>
+  </div>
+  <div class="tile ad-d t-sq pub-frame"><div class="prm-slot" id="slot-43"><span class="slot-tag">PropellerAds</span></div>
+    <div class="fallback-card" id="fb-43"><span class="fb-tag">Sponsored</span><h4>Gym Membership Deal</h4><a href="https://www.classpass.com" rel="noopener sponsored" target="_blank">Join →</a></div>
+  </div>
+  <div class="tile ad-b t-mrec pub-frame"><div class="prm-slot" id="slot-44"><span class="slot-tag">Ezoic</span></div>
+    <div class="fallback-card" id="fb-44"><span class="fb-tag">Sponsored</span><h4>Tax Software — Self-Employed</h4><a href="https://www.freshbooks.com" rel="noopener sponsored" target="_blank">Try →</a></div>
+  </div>
+
+</main>
+
+<!-- ── completion banner appears here when all gems found ── -->
+<div id="complete-banner" style="display:none;text-align:center;padding:30px 16px;background:linear-gradient(90deg,var(--lime),var(--teal));color:#fff;font-weight:700">
+  🎉 You found all 15 hidden facts! You officially looked harder than 99% of visitors. Share the hunt with a friend.
+</div>
+
+<!-- ══════════════════════════════════════════ FOOTER ══════════════════════════════════════════ -->
+<footer class="sitefoot">
+  <div class="logo" style="font-size:1.3rem;font-weight:900;color:#fff">The Hidden <span style="color:var(--gold-lt)">Almanac</span></div>
+  <p style="margin-top:6px">A wall of ads concealing facts genuinely worth finding.</p>
+  <div class="foot-links">
+    <a href="#">About</a><a href="#">Privacy Policy</a><a href="#">Advertising Disclosure</a><a href="#">Terms</a><a href="#">Contact</a>
+  </div>
+  <p style="opacity:.4;font-size:.7rem;max-width:760px;margin:0 auto">
+    Participates in Google AdSense, Media.net, Ezoic, Taboola, Outbrain, PropellerAds, Adsterra, Infolinks, Amazon Publisher Services, Sovrn, and Revcontent. Facts sourced from peer-reviewed research and official government publications. Sponsored links earn a commission at no cost to you.
+  </p>
+</footer>
+
+<!-- adblock gate -->
+<div id="abrec-overlay" role="dialog">
+  <button class="abrec-close" id="abrec-close-x" aria-label="Close">×</button>
+  <span class="abrec-icon">📖</span>
+  <div class="abrec-body"><h3>You're using an ad blocker</h3><p>This site is free because of ads. Please whitelist us — it keeps the hidden facts coming.</p></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <a href="https://help.getadblock.com/support/solutions/articles/6000055743" target="_blank" rel="noopener" class="abrec-btn abrec-primary">How to whitelist ↗</a>
+    <button class="abrec-btn abrec-secondary" id="abrec-dismiss">Continue anyway</button>
+  </div>
+</div>
+
+<!-- toast -->
+<div id="toast">💎 Hidden fact found!</div>
+
+<!-- sticky footer anchor ad -->
+<div id="sticky-footer">
+  <div class="prm-slot" id="slot-sticky"><span class="slot-tag">AdSense Anchor</span></div>
+  <div class="fallback-card" id="fb-sticky" style="width:728px;max-width:calc(100% - 40px);height:80px;flex-direction:row;gap:14px"><span class="fb-tag" style="writing-mode:vertical-rl">Sponsored</span><h4>High-Yield Savings — 5.00% APY, FDIC Insured</h4><a href="https://www.bankrate.com/banking/savings/best-high-yield-interests-savings-accounts/" rel="noopener sponsored" target="_blank">Compare →</a></div>
+  <button id="sticky-close" onclick="document.getElementById('sticky-footer').style.display='none'" aria-label="Close">×</button>
+</div>
+
+<!-- ══════════════════════════════════════════ SCRIPTS ══════════════════════════════════════════ -->
+<script>
+/* ── scroll progress ── */
+window.addEventListener('scroll',function(){
+  var p=(document.documentElement.scrollTop/(document.documentElement.scrollHeight-document.documentElement.clientHeight))*100;
+  document.getElementById('prog').style.width=p+'%';
+});
+
+/* ─────────────────────────────────────────────
+   GEM HUNT — reveal + count found facts
+───────────────────────────────────────────── */
+var TOTAL_GEMS = 15;
+var found = {};
+try { found = JSON.parse(localStorage.getItem('almanac_found') || '{}'); } catch(e) { found = {}; }
+
+function refreshCounter(){
+  var n = Object.keys(found).length;
+  document.getElementById('gem-count').textContent = n;
+  if (n >= TOTAL_GEMS) {
+    document.getElementById('complete-banner').style.display = 'block';
+  }
+}
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tm);
+  t._tm = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+document.querySelectorAll('.gem-tile').forEach(function(g){
+  var id = g.dataset.gem;
+  if (found[id]) g.classList.add('found');
+  function markFound(){
+    g.classList.toggle('open');
+    if (!found[id]) {
+      found[id] = true;
+      g.classList.add('found');
+      try { localStorage.setItem('almanac_found', JSON.stringify(found)); } catch(e){}
+      showToast('💎 Hidden fact found! (' + Object.keys(found).length + '/' + TOTAL_GEMS + ')');
+      refreshCounter();
+    }
+  }
+  g.addEventListener('click', markFound);
+  g.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); markFound(); }});
+});
+refreshCounter();
+
+/* ─────────────────────────────────────────────
+   ADBLOCK DETECTION (bait + fetch + script + height)
+───────────────────────────────────────────── */
+function detectByBait(){return new Promise(function(res){var b=document.createElement('div');b.className='adsbox ad-unit banner-ad pub_300x250';b.style.cssText='width:1px;height:1px;position:absolute;top:-9999px';document.body.appendChild(b);setTimeout(function(){var cs=getComputedStyle(b);var blk=b.offsetHeight===0||cs.display==='none'||cs.visibility==='hidden';document.body.removeChild(b);res(blk);},150);});}
+function detectByFetch(){return fetch('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',{method:'HEAD',mode:'no-cors',cache:'no-store'}).then(function(){return false;}).catch(function(){return true;});}
+function detectByScript(){return new Promise(function(res){setTimeout(function(){res(window.__adsenseFailed||typeof window.adsbygoogle==='undefined');},2000);});}
+
+Promise.all([detectByBait(),detectByFetch()]).then(function(r){
+  if(r[0]||r[1]){ triggerRecovery(); }
+  else { detectByScript().then(function(s){ if(s) triggerRecovery(); }); }
+});
+
+/* ─────────────────────────────────────────────
+   RECOVERY: gate + fallbacks + proxy retry
+───────────────────────────────────────────── */
+var recoveryTriggered=false;
+function triggerRecovery(){
+  if(recoveryTriggered)return; recoveryTriggered=true;
+  showSoftGate(); showFallbacks(); retryAdsViaProxy();
+}
+function showSoftGate(){
+  try{var ts=parseInt(localStorage.getItem('abrec_dismissed')||'0',10);if(Date.now()-ts<86400000)return;}catch(e){}
+  setTimeout(function(){document.getElementById('abrec-overlay').classList.add('visible');},1600);
+}
+document.getElementById('abrec-dismiss').addEventListener('click',function(){document.getElementById('abrec-overlay').classList.remove('visible');try{localStorage.setItem('abrec_dismissed',Date.now());}catch(e){}});
+document.getElementById('abrec-close-x').addEventListener('click',function(){document.getElementById('abrec-overlay').classList.remove('visible');});
+
+function showFallbacks(){
+  /* every slot-N has a matching fb-N; plus sticky */
+  for(var i=1;i<=44;i++){
+    var ad=document.getElementById('slot-'+i), fb=document.getElementById('fb-'+i);
+    if(ad) ad.style.display='none';
+    if(fb) fb.classList.add('show');
+  }
+  var sa=document.getElementById('slot-sticky'), sf=document.getElementById('fb-sticky');
+  if(sa) sa.style.display='none'; if(sf) sf.classList.add('show');
+}
+
+function retryAdsViaProxy(){
+  if(!('serviceWorker' in navigator))return;
+  navigator.serviceWorker.ready.then(function(){
+    retryScript('/prx/adsense/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX','adsense-proxy',function(){
+      document.querySelectorAll('ins.adsbygoogle').forEach(function(){try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}});
+    });
+    retryScript('/prx/medianet/dmedianet.js?cid=8XXXXXXXX','medianet-proxy',null);
+    retryScript('/prx/ezoic/ezoic/sa.min.js','ezoic-proxy',null);
+  }).catch(function(){});
+}
+function retryScript(src,id,onload){if(document.getElementById(id))return;var s=document.createElement('script');s.src=src;s.id=id;s.async=true;if(onload)s.onload=onload;document.head.appendChild(s);}
+
+/* ─────────────────────────────────────────────
+   MUTATION OBSERVER — restore cosmetically-hidden ad slots
+───────────────────────────────────────────── */
+(function(){
+  var obs=new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      if(m.type==='attributes'){
+        var el=m.target;
+        if(!el.classList||!el.classList.contains('prm-slot'))return;
+        var cs=getComputedStyle(el);
+        if(cs.display==='none'||cs.visibility==='hidden'||parseInt(cs.height)<2){
+          el.style.setProperty('display','flex','important');
+          el.style.setProperty('visibility','visible','important');
+          if(!recoveryTriggered)triggerRecovery();
+        }
+      }
+    });
+  });
+  document.querySelectorAll('.prm-slot').forEach(function(el){obs.observe(el,{attributes:true,attributeFilter:['style','class']});});
+})();
+
+/* ── taboola flush ── */
+window._taboola=window._taboola||[];_taboola.push({flush:true});
+</script>
+
+</body>
+</html>
